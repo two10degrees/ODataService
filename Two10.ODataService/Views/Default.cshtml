@@ -1,0 +1,75 @@
+﻿<html>
+    <head>
+        <title>two10 degrees OData endpoint service</title>
+        <style type="text/css">
+            body 
+            {
+                font-family:"Helvetica Neue", Helvetica, Arial, Verdana, san-serif;
+                color:#666;
+            }
+            a
+            {
+                color: #00AAD3;
+            }
+            table
+            {
+                border-collapse: collapse;    
+                margin:10px;
+                width:95%;
+            }
+           .logo
+            {
+                float:right;  
+                border:0px;  
+            }
+            th 
+            {
+                padding:5px;  
+                text-align:left;  
+                background-color: #00AAD3;
+                color:white;   
+            }
+            td
+            {
+                padding:5px;    
+            }
+            .altRow
+            {
+                background:whitesmoke;    
+            }
+        </style>
+
+    </head>
+    <body>
+        <a href="http://www.two10degrees.com"><img class="logo" src="http://www.aws.net/assets/t/w/two10degrees_logo_200x79.png" /></a>
+        <h2>two10 degerees OData endpoint service</h2>
+        The endpoints below have been configured
+        <table>
+            <tr>
+                <th>Name</th>        
+                <th>Query</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        
+        @{
+        bool even = false;
+        foreach (dynamic item in (Model as object[]))
+        {
+            string css = even ? "altRow" : "";
+            <tr class="@css">
+                <td>@item.Name</td>    
+                <td>@string.Format("{0}", (item.Query ?? "").Length > 50 ? ((string) item).Substring(0,50) + "..." : item.Query)</td>    
+                <td><a href="/Design/Edit/@item.SegmentId">Edit</a></td>
+                <td><a href="/Design/Delete/@item.SegmentId">Delete</a></td>
+                <td><a href="/Data/@item.Name">Test</a></td>
+            </tr>
+            even = !even;
+        }
+        }
+        </table>
+        <p><a href="/Design/New">New</a></p>
+        <p><a href="/Data">Try the OData service</a></p>
+    </body>
+</html>

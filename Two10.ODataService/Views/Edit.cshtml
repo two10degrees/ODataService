@@ -1,0 +1,56 @@
+﻿@{
+System.Collections.Generic.IDictionary<string, object> mod = Model as System.Collections.Generic.IDictionary<string, object>;
+    
+<html>
+    <head>
+        <title>two10 degrees OData endpoint service</title>
+        <style type="text/css">
+        body 
+        {
+            font-family:"Helvetica Neue", Helvetica, Arial, Verdana, san-serif;
+            color:#666;
+        }
+        a
+        {
+            color: #00AAD3;
+        }
+            
+        .logo
+        {
+            float:right;  
+            border:0px;  
+        }
+        .input 
+        {
+            width:300px;    
+        }
+        textarea
+        {
+            width:300px;    
+            height:150px;
+        }
+        .button
+        {
+            padding:7px;    
+        }
+        .inputRow
+        {
+            margin-bottom:10px;    
+        }
+            </style>
+        </head>
+    <body>
+        <a href="http://www.two10degrees.com"><img class="logo" src="http://www.aws.net/assets/t/w/two10degrees_logo_200x79.png" /></a>
+        <h2>Configure the endpoint</h2>
+        <form action="/Design/EditPostback" method="get">    
+            <div class="inputRow"><label for="Name">Name</label><br /><input class="input" id="Name" name="Name" type="text" value="@mod["Name"]" /></div>
+            <div class="inputRow"><label for="Connection_string">Connection string</label><br /><input class="input" id="ConnectionString" name="ConnectionString" type="text" value="@mod["ConnectionString"]" /></div>
+            <div class="inputRow"><label for="Query">Query</label><br /><textarea cols="20" id="Query" name="Query" rows="2">@mod["Query"]</textarea></div>
+            <input class="button" type="submit" value="Save" /><span> or <a href="/">Cancel</a></span>
+            <input id="SegmentId" name="SegmentId" type="hidden" value="@mod["SegmentId"]" />
+        </form>
+    </body>
+</html>
+    
+    
+}

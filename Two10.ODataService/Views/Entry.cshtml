@@ -1,0 +1,23 @@
+﻿@{
+    System.Collections.Generic.IDictionary<string, object> mod = Model as System.Collections.Generic.IDictionary<string, object>;
+    
+    System.Data.SqlClient.SqlDataReader reader = mod["Reader"] as System.Data.SqlClient.SqlDataReader;
+    
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+<entry>
+    <id>@string.Format("{0}/Data/{1}({2})", mod["BaseAddress"], mod["Name"], reader.GetValue((int)mod["PKIndex"]))</id>
+    <title type="text"></title>
+    <updated>@System.DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ")</updated>
+    <author>
+        <name />
+    </author>
+    <link rel="edit" title="Test" href="@string.Format("{0}({1})", mod["Name"], reader.GetValue((int)mod["PKIndex"]))" />
+    <category term="Namespace.Test" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+    <content type="application/xml">
+        <m:properties>
+        @for (int i = 0; i < reader.FieldCount; i++)
+    {            <text>@string.Format("<d:{0}>{1}</d:{0}>\r\n", reader.GetName(i), reader.GetValue(i))</text>}
+        </m:properties>
+    </content>
+</entry>
+}

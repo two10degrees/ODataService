@@ -1,0 +1,18 @@
+﻿@{
+    System.Collections.Generic.IDictionary<string, object> mod = Model as System.Collections.Generic.IDictionary<string, object>;
+    
+    
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+<service xml:base="@mod["BaseAddress"]/Data" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:app="http://www.w3.org/2007/app" xmlns="http://www.w3.org/2007/app">
+  <workspace>
+    <atom:title>Default</atom:title>
+    @foreach (object collection in (mod["Segments"] as object[]))
+    {
+        System.Collections.Generic.IDictionary<string, object> item = collection as System.Collections.Generic.IDictionary<string, object>;
+    <collection href="/Data/@item["Name"]">
+      <atom:title>@item["Name"]</atom:title>
+    </collection>
+    }
+  </workspace>
+</service>
+}

@@ -1,0 +1,35 @@
+﻿@{
+    System.Collections.Generic.IDictionary<string, object> mod = Model as System.Collections.Generic.IDictionary<string, object>;
+    
+    System.Data.SqlClient.SqlDataReader reader = mod["Reader"] as System.Data.SqlClient.SqlDataReader;
+    
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
+<feed xml:base="@mod["BaseAddress"]/Data/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">
+  <title type="text">@mod["Name"]</title>
+  <id>@mod["BaseAddress"]/Data/@mod["Name"]</id>
+  <updated>@System.DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ")</updated>
+  <link rel="self" title="@mod["Name"]" href="@mod["Name"]" />
+  @while (reader.Read())
+  { 
+  
+      <entry>
+        <id>@string.Format("{0}/Data/{1}({2})", mod["BaseAddress"], mod["Name"], reader.GetValue((int)mod["PKIndex"]))</id>
+        <title type="text"></title>
+        <updated>@System.DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ")</updated>
+        <author>
+          <name />
+        </author>
+        <link rel="edit" title="Test" href="@string.Format("{0}({1})", mod["Name"], reader.GetValue((int)mod["PKIndex"]))" />
+        <category term="Namespace.Test" scheme="http://schemas.microsoft.com/ado/2007/08/dataservices/scheme" />
+        <content type="application/xml">
+          <m:properties>
+            @for (int i = 0; i < reader.FieldCount; i++)
+{            <text>@string.Format("<d:{0}>{1}</d:{0}>\r\n", reader.GetName(i), reader.GetValue(i))</text>}
+          </m:properties>
+        </content>
+      </entry>
+      
+  
+  }
+</feed>
+}
