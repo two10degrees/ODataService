@@ -38,6 +38,8 @@ Clicking on the 'Try the OData service' link to view services you have configure
 
 	http://localhost:8080/Data
 
+Response:
+
 	<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
 	<service xml:base="http://localhost:8080/Data" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:app="http://www.w3.org/2007/app" xmlns="http:// www.w3.org/2007/app">
 	  <workspace>
@@ -54,6 +56,8 @@ Clicking on the 'Try the OData service' link to view services you have configure
 To view all records in a service, add the dataservice name to the URL: 
 
 	http://localhost:8080/Data/DataService1
+
+Response:
 
 	<?xml version="1.0" encoding="iso-8859-1" standalone="yes"?>
 	<feed xml:base="http://localhost:8080/Data/" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://www.w3.org/2005/Atom">
@@ -85,6 +89,8 @@ A single entry can be retrieved by specifying the Id in the brackets:
 
 	http://localhost:8080/Data/DataService1(1)
 
+Response:
+
 	<entry>
 	  <id>http://localhost:8080/Data/DataService1(1)</id>
 	  <title type="text"></title>
@@ -108,11 +114,15 @@ To see a single property, specify this on the end of the path:
 
 	http://localhost:8080/Data/DataService1(1)/Field1
 
+Response:
+
 	<Field1 xmlns="http://schemas.microsoft.com/ado/2007/08/dataservices">Value1</Field1>
 
 To view the raw value, specify $value on the end of the path:
 
 	http://localhost:8080/Data/DataService1(1)/Field1/$value
+
+Response:
 
 	Value1
 
