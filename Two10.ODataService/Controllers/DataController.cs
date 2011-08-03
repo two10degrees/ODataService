@@ -47,7 +47,7 @@ namespace Two10.ODataService.Controllers
 
             Tuple<int, string> pkInfo = GetPK(segment);
             model.PKIndex = pkInfo.Item1;
-            model.BaseAddress = "http://localhost:8080";
+            model.BaseAddress = Program.BaseAddress;
 
 
             string fields = "*";
@@ -152,7 +152,7 @@ namespace Two10.ODataService.Controllers
             dynamic model = new ExpandoObject();
             var db = Database.Open();
             model.Segments = db.Segment.All().ToArray();
-            model.BaseAddress = "http://localhost:8080";
+            model.BaseAddress = Program.BaseAddress;
             return new ControllerResponse("Collections", model, "application/rss+xml");
         }
 

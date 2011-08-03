@@ -37,11 +37,19 @@ System.Collections.Generic.IDictionary<string, object> mod = Model as System.Col
         {
             margin-bottom:10px;    
         }
+        .errMessage
+        {
+            color:red;   
+        }
             </style>
         </head>
     <body>
         <a href="http://www.two10degrees.com"><img class="logo" src="http://www.aws.net/assets/t/w/two10degrees_logo_200x79.png" /></a>
         <h2>Configure the endpoint</h2>
+        @if (@mod.ContainsKey("Message"))
+        { 
+            <span class="errMessage">@mod["Message"]</span>
+        }
         <form action="/Design/EditPostback" method="get">    
             <div class="inputRow"><label for="Name">Name</label><br /><input class="input" id="Name" name="Name" type="text" value="@mod["Name"]" /></div>
             <div class="inputRow"><label for="Connection_string">Connection string</label><br /><input class="input" id="ConnectionString" name="ConnectionString" type="text" value="@mod["ConnectionString"]" /></div>

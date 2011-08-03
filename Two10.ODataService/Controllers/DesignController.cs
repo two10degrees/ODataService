@@ -39,6 +39,13 @@ namespace Two10.ODataService.Controllers
             return Index();
         }
 
+        private bool CheckName(string name, int segmentId, dynamic database)
+        {
+            if (string.IsNullOrWhiteSpace(name)) return false;
+            dynamic[] match = (database.Segment.FindAllByName(name)).ToArray();
+            return !(from s in match where s.SegmentId != segmentId select s).Any();
+        }
+
 
         private ControllerResponse Index()
         {
@@ -64,9 +71,29 @@ namespace Two10.ODataService.Controllers
 
         private ControllerResponse EditPostback(ControllerRequest request)
         {
+            dynamic database = Database.Open();
+
+            if (!this.CheckName(request.Query["Name"], int.Parse(request.Query["SegmentId"]), database))
+            {
+                dynamic model = new ExpandoObject();
+                model.SegmentId = int.Parse(request.Query["SegmentId"]);
+                model.Name = request.Query["Name"];
+                model.ConnectionString = request.Query["ConnectionString"];
+                model.Query = request.Query["Query"];
+                if (string.IsNullOrWhiteSpace(request.Query["Name"]))
+                {
+                    model.Message = "Please enter a name for this data service";
+                }
+                else
+                {
+                    model.Message = "Please choose a different name, the name is already in use";
+                }
+                return new ControllerResponse("Edit", model);
+            }
+
             if (request.Query["SegmentId"] == "0")
             {
-                Database.Open().Segment.Insert(
+                database.Segment.Insert(
                     Name: request.Query["Name"],
                     ConnectionString: request.Query["ConnectionString"],
                     Query: request.Query["Query"]);
@@ -74,7 +101,7 @@ namespace Two10.ODataService.Controllers
                 return Index();
             }
 
-            Database.Open().Segment.UpdateBySegmentId(
+            database.Segment.UpdateBySegmentId(
                 SegmentId: int.Parse(request.Query["SegmentId"]), 
                 Name: request.Query["Name"], 
                 ConnectionString: request.Query["ConnectionString"], 

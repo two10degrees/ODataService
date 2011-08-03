@@ -39,23 +39,42 @@ namespace Two10.ODataService
     // consumer from 'throttling back' the producer.
     class Program
     {
+        public static int Port { get; private set; }
+        public static string BaseAddress
+        {
+            get 
+            {
+                return string.Format("http://localhost:{0}", Program.Port);
+            }
+        }
+
         static void Main(string[] args)
         {
 #if DEBUG
             //Debug.Listeners.Add(new TextWriterTraceListener(Console.Out));
             //Debug.AutoFlush = true;
 #endif
+            Program.Port = 8080;
+            if (args.Length > 0)
+            {
+                int port = 8080;
+                if (int.TryParse(args[0], out port))
+                {
+                    Program.Port = port;
+                }
+            }
 
             var scheduler = KayakScheduler.Factory.Create(new SchedulerDelegate());
             scheduler.Post(() =>
             {
                 KayakServer.Factory
                     .CreateHttp(new RequestDelegate(), scheduler)
-                    .Listen(new IPEndPoint(IPAddress.Any, 8080));
+                    .Listen(new IPEndPoint(IPAddress.Any, Program.Port));
             });
 
             // runs scheduler on calling thread. this method will block until
             // someone calls Stop() on the scheduler.
+            Console.WriteLine(Program.BaseAddress);
             scheduler.Start();
         }
 
