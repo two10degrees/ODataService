@@ -126,3 +126,56 @@ Response:
 
 	Value1
 
+To retrieve the number of records, add $count to the path:
+
+	http://localhost:8080/Data/DataService1/$count
+
+Response:
+
+	45
+
+Queries can be filtered using simple expressions appended a $filter to the query part of the URL:
+
+	http://localhost:8080/Data/DataService1?$filter=Field1 eq Value1
+
+The following expressions are supported:
+
+	eq  =   (equals)
+	lt  <   (less than)	
+	gt  >   (greater than)
+	le  <=  (less than or equal)
+	ge  >=  (greater than or equal)
+	ne  !=  (not equal)
+
+Records can be sorted by appending $orderby to the query part of the URL:
+
+	http://localhost:8080/Data/DataService1?$orderby=Field1,Field2 desc
+
+A record limit can be introduced using $top, which will return the first n records:
+
+	http://localhost:8080/Data/DataService1?$top=100
+
+The properties returned can be selected using $select:
+
+	http://localhost:8080/Data/DataService1?$select=Field1,Field2
+
+The '$' keywords can be used in any combination, for example:
+
+	http://localhost:8080/Data/DataService1?$top=100&$select=Field1,Field2&orderby=Field1,Field2$filter=Field3 eq 'Value3'
+
+An extra (non-OData) keyword has been added, $sql, which will display the query which will be executed. This is useful for debugging the service:
+
+	http://localhost:8080/Data/DataService1?$sql
+
+Response:
+
+	SELECT  * FROM (select * from Example) AS SubQuery  
+
+
+Known Limitations
+-----------------
+
+1. JSON is not currently supported, all responses are in XML.
+2. Advanced filtering is not available.
+3. Joins are not available.
+4. Pagination is not supported.

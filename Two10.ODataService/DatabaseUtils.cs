@@ -9,6 +9,17 @@ using System.Text;
 
 namespace Two10.ODataService
 {
+
+    public static class Extensions
+    {
+        public static string Clean(this string value)
+        { 
+            if (string.IsNullOrWhiteSpace(value)) return value;
+            return value.Replace("'", string.Empty);
+        }
+    
+    }
+
     public static class DatabaseUtils
     {
         public static SqlDataReader ExecuteReader(string query, string connectionString)
@@ -38,16 +49,17 @@ namespace Two10.ODataService
                     string sqlOperator = ConvertOperator(item.Item2);
                     if (null != sqlOperator)
                     {
-                        sb.Append(string.Format("[{0}] {1} '{2}'\r\n", item.Item1, sqlOperator, item.Item3));
+                        sb.Append(string.Format("[{0}] {1} '{2}'\r\n", item.Item1.Clean(), sqlOperator, item.Item3.Clean()));
                     }
                 }
             }
 
-            return string.Format("SELECT {0} {1} FROM ({2}) AS SubQuery {3}",
+            return string.Format("SELECT {0} {1} FROM ({2}) AS SubQuery {3} {4}",
                 top >= 0 ? "TOP " + top.ToString() : "",
-                fields.Replace("'", string.Empty),
+                fields.Clean(),
                 query,
-                sb.ToString());
+                sb.ToString(),
+                string.IsNullOrWhiteSpace(orderby) ? "" : "ORDER BY " + orderby.Clean());
         }
 
         private static string ConvertOperator(string value)

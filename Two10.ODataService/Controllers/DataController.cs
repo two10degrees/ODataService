@@ -126,7 +126,8 @@ namespace Two10.ODataService.Controllers
 
             if (request.Query.Keys.Contains("$sql"))
             {
-                return new ControllerResponse("Value", query, "text/plain");
+                model.Value = query;
+                return new ControllerResponse("Value", model, "text/plain");
             }
 
             model.Reader = DatabaseUtils.ExecuteReader(query, segment.ConnectionString);
