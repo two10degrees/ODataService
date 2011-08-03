@@ -161,7 +161,7 @@ The properties returned can be selected using $select:
 
 The '$' keywords can be used in any combination, for example:
 
-	http://localhost:8080/Data/DataService1?$top=100&$select=Field1,Field2&orderby=Field1,Field2$filter=Field3 eq 'Value3'
+	http://localhost:8080/Data/DataService1?$top=100&$select=Field1,Field2&orderby=Field1,Field2&$filter=Field3 eq 'Value3'
 
 An extra (non-OData) keyword has been added, $sql, which will display the query which will be executed. This is useful for debugging the service:
 
