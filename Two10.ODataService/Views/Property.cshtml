@@ -3,5 +3,5 @@ System.Collections.Generic.IDictionary<string, object> mod = Model as System.Col
     
 System.Data.SqlClient.SqlDataReader reader = mod["Reader"] as System.Data.SqlClient.SqlDataReader;
 
-@string.Format("<{0} xmlns=\"http://schemas.microsoft.com/ado/2007/08/dataservices\">{1}</{0}>", reader.GetName(0), reader.GetValue(0))
+@string.Format("<{0} xmlns=\"http://schemas.microsoft.com/ado/2007/08/dataservices\">{1}</{0}>", reader.GetName(0), System.Web.HttpUtility.HtmlEncode(reader.GetValue(0)))
 }
