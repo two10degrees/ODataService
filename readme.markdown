@@ -31,6 +31,8 @@ Three pieces of information are required to create your endpoint:
 
 Pressing the 'Save' button will create the OData feed.
 
+ > The OData feed requires an ID or primary key for your query. It's impossible from the query results to determine which field is the primary key. The service uses convention to discover this. It inspects the field names, and selects the first field which ends with 'id'. If no fields match this criteria, the first field is used.
+
 Supported OData Queries
 -----------------------
 
