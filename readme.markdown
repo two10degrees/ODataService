@@ -1,3 +1,5 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/3voth0yob3rnpx70/branch/master?svg=true)](https://ci.appveyor.com/project/richorama/odataservice/branch/master)
+
 Two10degrees OData Service
 ===========================
 
@@ -181,3 +183,7 @@ Known Limitations
 2. Advanced filtering is not available.
 3. Joins are not available.
 4. Pagination is not supported.
+
+License
+-------
+ MIT
