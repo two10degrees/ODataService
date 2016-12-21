@@ -24,12 +24,15 @@
         <content type="application/xml">
           <m:properties>
             @for (int i = 0; i < reader.FieldCount; i++)
-{            <text>@string.Format("<d:{0}>{1}</d:{0}>\r\n", reader.GetName(i), System.Web.HttpUtility.HtmlEncode(reader.GetValue(i)))</text>}
+            {
+                @Raw(string.Format("<d:{0}>{1}</d:{0}>\r\n", reader.GetName(i), System.Web.HttpUtility.HtmlEncode(reader.GetValue(i))))
+            }
           </m:properties>
         </content>
       </entry>
-      
-  
+
+
+
   }
 </feed>
 }

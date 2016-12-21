@@ -9,6 +9,8 @@ using Kayak.Http;
 using Two10.ODataService.Controllers;
 using System.IO;
 using System.Web;
+using RazorEngine;
+using RazorEngine.Templating;
 
 namespace Two10.ODataService
 {
@@ -100,8 +102,8 @@ namespace Two10.ODataService
                 try
                 {
                     Console.WriteLine(request.Uri);
-                    ControllerRequest controllerRequest = CreateControllerRequest(request);
-                    IController controller = CreateController(controllerRequest);
+                    var controllerRequest = CreateControllerRequest(request);
+                    var controller = CreateController(controllerRequest);
 
                     if (null == controller)
                     {
@@ -109,16 +111,15 @@ namespace Two10.ODataService
                         return;
                     }
 
-                    ControllerResponse controllerResponse = controller.Execute(controllerRequest);
+                    var controllerResponse = controller.Execute(controllerRequest);
 
-                    if (controllerResponse == null || controllerResponse.View == null)
+                    if (controllerResponse?.View == null)
                     {
                         Return404(request, response);
                         return;
                     }
-                    string view = GetView(controllerResponse.View);
-                    
-                    string output = RazorEngine.Razor.Parse<object>(view, controllerResponse.Model);
+                    var view = GetView(controllerResponse.View);
+                    var output = RazorEngine.Templating.RazorEngineServiceExtensions.RunCompile(Engine.Razor, templateSource : view, name : controllerResponse.View, model : controllerResponse.Model, viewBag: null);
                     Return200(response, output, controllerResponse.ContentType);
                 }
                 catch (Exception ex)
@@ -144,8 +145,8 @@ namespace Two10.ODataService
 
             private static ControllerRequest CreateControllerRequest(HttpRequestHead request)
             {
-                ControllerRequest controllerRequest = new ControllerRequest();
-                string[] uriComponents = request.Uri.Split('?');
+                var controllerRequest = new ControllerRequest();
+                var uriComponents = request.Uri.Split('?');
 
                 if (uriComponents.Length == 0)
                 {
@@ -159,10 +160,10 @@ namespace Two10.ODataService
                 controllerRequest.Query = new Dictionary<string, string>();
                 if (uriComponents.Length >= 2)
                 {
-                    string[] queryParts = uriComponents[1].Split('&');
+                    var queryParts = uriComponents[1].Split('&');
                     foreach (string part in queryParts)
                     {
-                        string[] keyValue = part.Split('=');
+                        var keyValue = part.Split('=');
                         if (keyValue.Length > 0)
                         {
                             controllerRequest.Query.Add(HttpUtility.UrlDecode(keyValue[0]), keyValue.Length > 1 ? HttpUtility.UrlDecode(keyValue[1]) : null);
@@ -221,8 +222,8 @@ namespace Two10.ODataService
         {
             ArraySegment<byte> data;
 
-            public BufferedProducer(string data) : this(data, Encoding.UTF8) { }
-            public BufferedProducer(string data, Encoding encoding) : this(encoding.GetBytes(data)) { }
+            public BufferedProducer(string data) : this(data, System.Text.Encoding.UTF8) { }
+            public BufferedProducer(string data, System.Text.Encoding encoding) : this(encoding.GetBytes(data)) { }
             public BufferedProducer(byte[] data) : this(new ArraySegment<byte>(data)) { }
             public BufferedProducer(ArraySegment<byte> data)
             {
