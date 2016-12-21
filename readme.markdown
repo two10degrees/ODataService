@@ -1,4 +1,4 @@
-two10 degrees OData Service
+Two10degrees OData Service
 ===========================
 
 A console application which starts an HTTP server, allowing the user to configure database queries exposed by the service as OData endpoints.
