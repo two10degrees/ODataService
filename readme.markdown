@@ -126,7 +126,9 @@ To see a single property, specify this on the end of the path:
 
 Response:
 
-	<Field1 xmlns="http://schemas.microsoft.com/ado/2007/08/dataservices">Value1</Field1>
+```xml
+<Field1 xmlns="http://schemas.microsoft.com/ado/2007/08/dataservices">Value1</Field1>
+```
 
 To view the raw value, specify $value on the end of the path:
 
